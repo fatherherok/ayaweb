@@ -1,0 +1,82 @@
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity ^0.8.0;
+
+    
+contract StudentReg {
+        
+
+        //these are the only user ID allowed to register the students
+        uint public userId1;
+        uint public userId2;
+        uint public userId3;
+
+         uint _allowedUser; 
+
+
+        NewMember[] public Student;
+
+
+            struct NewMember {
+
+                string Name;
+                string Class;
+                string Age;
+                string State;
+                uint Matric;
+                bool Pay;
+
+            }
+
+            struct EachStudentPerformace{
+
+                uint Mathematics;
+                uint English;
+                uint Physics;
+                uint Chemistry;
+                uint Biology;
+                uint Matric;
+
+            }
+
+   EachStudentPerformace eachStudentPerformace;
+
+      modifier onlyAllowed(uint _userID) {
+          userId1 = 123;
+          userId2 = 1234;
+          userId3 = 12345;
+        require(_userID == userId1 || _userID == userId2 || _userID == userId3,  "Sorry You are not allowed to register"); 
+        _;
+    }      
+
+     modifier checkStudentFees(bool _pay) {
+        require(_pay == true,  "This student can be registered"); 
+        _;
+    }  
+
+       
+        function getStudentInfo(string memory _Name, string memory _Class, string memory _Age, string memory _State,   uint _Matric, bool _Pay)public checkStudentFees(true) onlyAllowed(_allowedUser){
+
+                Student.push(NewMember(_Name, _Class, _Age, _State, _Matric, _Pay));
+
+            }
+
+
+
+
+
+        function setStudentPerfomance() public  returns(uint _Matric, uint _Mathematics, uint _English, uint _Physics, uint _Chemistry, uint _Biology){
+
+                    eachStudentPerformace = EachStudentPerformace(_Matric, _Mathematics, _English, _Physics, _Chemistry, _Biology);
+        }
+
+    function getStudentPerfomance(uint _matric) public view returns (uint, uint, uint, uint, uint) {
+              
+              require(eachStudentPerformace.Matric == _matric, "");
+
+              return(eachStudentPerformace.Mathematics, eachStudentPerformace.English,eachStudentPerformace.Physics, eachStudentPerformace.Chemistry, eachStudentPerformace.Biology); 
+           
+   }
+
+
+}
