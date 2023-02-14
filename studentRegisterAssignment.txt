@@ -6,6 +6,9 @@ pragma solidity ^0.8.0;
 contract StudentReg {
         
 
+         uint256 public schoolFees = 0.2 ether;
+
+         
         //these are the only user ID allowed to register the students
         uint public userId1;
         uint public userId2;
@@ -39,6 +42,21 @@ contract StudentReg {
 
             }
 
+
+
+     modifier shouldPay(uint256 _cost) {
+             require(msg.value >= _cost, "Not enough funds to pay school fees");
+             _;
+        }
+          function paySchoolFees(uint matric) payable public shouldPay(schoolFees) {
+            
+             
+           
+        }
+
+
+
+
    EachStudentPerformace eachStudentPerformace;
 
       modifier onlyAllowed(uint _userID) {
@@ -50,7 +68,7 @@ contract StudentReg {
     }      
 
      modifier checkStudentFees(bool _pay) {
-        require(_pay == true,  "This student can be registered"); 
+        require(_pay == true,  "This student cannot be registered"); 
         _;
     }  
 
